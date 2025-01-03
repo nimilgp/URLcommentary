@@ -1,0 +1,13 @@
+bin -> compiled binaries
+cmd -> code for project
+dblayer -> sqlc generated data access code
+internal -> reusable ancillary code
+migrations -> sql migration files for database
+remote -> configuration and setup scripts
+sqlc -> sqlc source 
+
+.gitignore -> files to not include in version control
+go.mod -> project dependecies, module path, versions
+go.sum -> checksums of dependecies
+MakeFile -> recepies for automating administrative tasks
+ProjectStructure -> explains structure of project 
