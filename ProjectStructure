@@ -1,3 +1,14 @@
+Code/URLcommentary/
+├── bin
+├── cmd
+│   └── api
+├── dblayer
+├── internal
+├── migrations
+├── remote
+└── sqlc
+
+
 bin -> compiled binaries
 cmd -> code for project
 dblayer -> sqlc generated data access code
