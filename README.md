@@ -11,13 +11,13 @@ URL Comments is a tool designed to enable users to comment on any website, even 
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/yourusername/URLcomments.git
+    git clone https://github.com/nimilgp/URLcommentary
     ```
 
 2. **Navigate to the Directory**
 
     ```bash
-    cd URLcomments
+    cd URLcommentary
     ```
 
 3. **Load the Extension in Chrome**
