@@ -1,17 +1,20 @@
-Code/URLcommentary/
+URLcommentary/
 ├── bin
 ├── cmd
-│   └── api
+│   └── api
 ├── dblayer
+├── extension
 ├── internal
 ├── migrations
 ├── remote
 └── sqlc
+    └── query
 
 
 bin -> compiled binaries
 cmd -> code for project
 dblayer -> sqlc generated data access code
+extension -> contains browser loadable extension code
 internal -> reusable ancillary code
 migrations -> sql migration files for database
 remote -> configuration and setup scripts
