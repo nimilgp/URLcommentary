@@ -45,6 +45,7 @@ func main() {
 		ErrorLog:     slog.NewLogLogger(logger.Handler(), slog.LevelError),
 	}
 
+	logger.Info("Reminder", "CORS policy", "set before production")
 	logger.Info("starting server", "addr", srv.Addr, "env", cfg.env)
 	err := srv.ListenAndServe()
 	logger.Error(err.Error())

@@ -17,5 +17,5 @@ func (app *application) routes() http.Handler {
 	router.HandlerFunc(http.MethodGet, "/view/reply/comments/:forurl/:commentid/:start/", app.getReplyComments)
 	router.HandlerFunc(http.MethodPost, "/create/reply/comment/:forurl/:commentid", app.postReplyComment)
 
-	return router
+	return app.enableCORS(router)
 }
