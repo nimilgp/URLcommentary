@@ -46,7 +46,7 @@ Once the extension is loaded,  users can then post and view comments, which will
 3. **Compile the source**
 
    ```bash
-    go build ./cmd/api/ -o srv
+    go build -o srv ./cmd/api/ 
    ```
 4. **Run server**
    ```bash
