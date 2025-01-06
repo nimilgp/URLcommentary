@@ -1,7 +1,7 @@
 CREATE TABLE Pages (
     PageURL TEXT PRIMARY KEY,
     PageId SERIAL UNIQUE,
-    CommentsCount INTEGER NOT NULL,
+    CommentsCount INTEGER DEFAULT 0,
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -35,4 +35,4 @@ CREATE TABLE UserRelations (
     PRIMARY KEY (ViewerUserId, CommentorUserId),
     FOREIGN KEY (ViewerUserId) REFERENCES Users(UserId),
     FOREIGN KEY (CommentorUserId) REFERENCES Users(UserId)
-);1
+);
