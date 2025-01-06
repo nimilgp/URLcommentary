@@ -1,8 +1,10 @@
 URLcommentary/
 ├── bin
 ├── cmd
-│   └── api
+│   └── api
 ├── dblayer
+├── dummydata
+│   └── setupfiles
 ├── extension
 ├── internal
 ├── migrations
@@ -14,6 +16,7 @@ URLcommentary/
 bin -> compiled binaries
 cmd -> code for project
 dblayer -> sqlc generated data access code
+dummydata -> scripts for populating db with data and droping tables
 extension -> contains browser loadable extension code
 internal -> reusable ancillary code
 migrations -> sql migration files for database
