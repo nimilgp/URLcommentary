@@ -2,11 +2,11 @@ URLcommentary/
 ├── bin
 ├── cmd
 │   └── api
-├── dblayer
 ├── dummydata
 │   └── setupfiles
 ├── extension
 ├── internal
+    └── dblayer
 ├── migrations
 ├── remote
 └── sqlc
