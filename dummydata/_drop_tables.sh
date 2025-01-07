@@ -1,1 +1,1 @@
-sudo -u postgres psql -d greenlight -f drop.sql
+sudo -u postgres psql -f drop.sql
