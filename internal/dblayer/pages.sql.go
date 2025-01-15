@@ -7,8 +7,7 @@ package dblayer
 
 import (
 	"context"
-
-	"github.com/jackc/pgx/v5/pgtype"
+	"time"
 )
 
 const createPage = `-- name: CreatePage :exec
@@ -20,7 +19,7 @@ INSERT INTO Pages (
 `
 
 func (q *Queries) CreatePage(ctx context.Context, pageurl string) error {
-	_, err := q.db.Exec(ctx, createPage, pageurl)
+	_, err := q.db.ExecContext(ctx, createPage, pageurl)
 	return err
 }
 
@@ -31,7 +30,7 @@ WHERE PageId = $1
 `
 
 func (q *Queries) IncreaseCommentCount(ctx context.Context, pageid int32) error {
-	_, err := q.db.Exec(ctx, increaseCommentCount, pageid)
+	_, err := q.db.ExecContext(ctx, increaseCommentCount, pageid)
 	return err
 }
 
@@ -42,13 +41,13 @@ WHERE PageURL = $1
 `
 
 type RetrievePageDetailsRow struct {
-	Pageid        int32            `json:"pageid"`
-	Commentscount int32            `json:"commentscount"`
-	Createdat     pgtype.Timestamp `json:"createdat"`
+	Pageid        int32     `json:"pageid"`
+	Commentscount int32     `json:"commentscount"`
+	Createdat     time.Time `json:"createdat"`
 }
 
 func (q *Queries) RetrievePageDetails(ctx context.Context, pageurl string) (*RetrievePageDetailsRow, error) {
-	row := q.db.QueryRow(ctx, retrievePageDetails, pageurl)
+	row := q.db.QueryRowContext(ctx, retrievePageDetails, pageurl)
 	var i RetrievePageDetailsRow
 	err := row.Scan(&i.Pageid, &i.Commentscount, &i.Createdat)
 	return &i, err

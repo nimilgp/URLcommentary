@@ -5,26 +5,26 @@
 package dblayer
 
 import (
-	"github.com/jackc/pgx/v5/pgtype"
+	"time"
 )
 
 type Comment struct {
-	Commentid   int32            `json:"commentid"`
-	Pageid      int32            `json:"pageid"`
-	Userid      int32            `json:"userid"`
-	Createdat   pgtype.Timestamp `json:"createdat"`
-	Editedbool  bool             `json:"editedbool"`
-	Upvotes     int32            `json:"upvotes"`
-	Downvotes   int32            `json:"downvotes"`
-	Commentdata string           `json:"commentdata"`
-	Parentid    int32            `json:"parentid"`
+	Commentid   int32     `json:"commentid"`
+	Pageid      int32     `json:"pageid"`
+	Userid      int32     `json:"userid"`
+	Createdat   time.Time `json:"createdat"`
+	Editedbool  bool      `json:"editedbool"`
+	Upvotes     int32     `json:"upvotes"`
+	Downvotes   int32     `json:"downvotes"`
+	Commentdata string    `json:"commentdata"`
+	Parentid    int32     `json:"parentid"`
 }
 
 type Page struct {
-	Pageurl       string           `json:"pageurl"`
-	Pageid        int32            `json:"pageid"`
-	Commentscount int32            `json:"commentscount"`
-	Createdat     pgtype.Timestamp `json:"createdat"`
+	Pageurl       string    `json:"pageurl"`
+	Pageid        int32     `json:"pageid"`
+	Commentscount int32     `json:"commentscount"`
+	Createdat     time.Time `json:"createdat"`
 }
 
 type User struct {

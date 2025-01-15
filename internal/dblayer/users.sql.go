@@ -25,7 +25,7 @@ type CreateUserParams struct {
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg *CreateUserParams) error {
-	_, err := q.db.Exec(ctx, createUser,
+	_, err := q.db.ExecContext(ctx, createUser,
 		arg.Username,
 		arg.Firstname,
 		arg.Lastname,
@@ -46,7 +46,7 @@ type UpdateEmailIdParams struct {
 }
 
 func (q *Queries) UpdateEmailId(ctx context.Context, arg *UpdateEmailIdParams) error {
-	_, err := q.db.Exec(ctx, updateEmailId, arg.Emailid, arg.Userid)
+	_, err := q.db.ExecContext(ctx, updateEmailId, arg.Emailid, arg.Userid)
 	return err
 }
 
@@ -62,6 +62,6 @@ type UpdateUserNameParams struct {
 }
 
 func (q *Queries) UpdateUserName(ctx context.Context, arg *UpdateUserNameParams) error {
-	_, err := q.db.Exec(ctx, updateUserName, arg.Username, arg.Userid)
+	_, err := q.db.ExecContext(ctx, updateUserName, arg.Username, arg.Userid)
 	return err
 }

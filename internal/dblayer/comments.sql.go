@@ -7,8 +7,7 @@ package dblayer
 
 import (
 	"context"
-
-	"github.com/jackc/pgx/v5/pgtype"
+	"time"
 )
 
 const createComment = `-- name: CreateComment :exec
@@ -27,7 +26,7 @@ type CreateCommentParams struct {
 }
 
 func (q *Queries) CreateComment(ctx context.Context, arg *CreateCommentParams) error {
-	_, err := q.db.Exec(ctx, createComment,
+	_, err := q.db.ExecContext(ctx, createComment,
 		arg.Pageid,
 		arg.Userid,
 		arg.Commentdata,
@@ -50,15 +49,15 @@ type RetrieveNewstCommentsParams struct {
 }
 
 type RetrieveNewstCommentsRow struct {
-	Commentid   int32            `json:"commentid"`
-	Username    string           `json:"username"`
-	Createdat   pgtype.Timestamp `json:"createdat"`
-	Editedbool  bool             `json:"editedbool"`
-	Commentdata string           `json:"commentdata"`
+	Commentid   int32     `json:"commentid"`
+	Username    string    `json:"username"`
+	Createdat   time.Time `json:"createdat"`
+	Editedbool  bool      `json:"editedbool"`
+	Commentdata string    `json:"commentdata"`
 }
 
 func (q *Queries) RetrieveNewstComments(ctx context.Context, arg *RetrieveNewstCommentsParams) ([]*RetrieveNewstCommentsRow, error) {
-	rows, err := q.db.Query(ctx, retrieveNewstComments, arg.Pageid, arg.Limit)
+	rows, err := q.db.QueryContext(ctx, retrieveNewstComments, arg.Pageid, arg.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -76,6 +75,9 @@ func (q *Queries) RetrieveNewstComments(ctx context.Context, arg *RetrieveNewstC
 			return nil, err
 		}
 		items = append(items, &i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -97,15 +99,15 @@ type RetrieveOldestCommentsParams struct {
 }
 
 type RetrieveOldestCommentsRow struct {
-	Commentid   int32            `json:"commentid"`
-	Username    string           `json:"username"`
-	Createdat   pgtype.Timestamp `json:"createdat"`
-	Editedbool  bool             `json:"editedbool"`
-	Commentdata string           `json:"commentdata"`
+	Commentid   int32     `json:"commentid"`
+	Username    string    `json:"username"`
+	Createdat   time.Time `json:"createdat"`
+	Editedbool  bool      `json:"editedbool"`
+	Commentdata string    `json:"commentdata"`
 }
 
 func (q *Queries) RetrieveOldestComments(ctx context.Context, arg *RetrieveOldestCommentsParams) ([]*RetrieveOldestCommentsRow, error) {
-	rows, err := q.db.Query(ctx, retrieveOldestComments, arg.Pageid, arg.Limit)
+	rows, err := q.db.QueryContext(ctx, retrieveOldestComments, arg.Pageid, arg.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -123,6 +125,9 @@ func (q *Queries) RetrieveOldestComments(ctx context.Context, arg *RetrieveOldes
 			return nil, err
 		}
 		items = append(items, &i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -145,15 +150,15 @@ type RetrieveSubCommentsParams struct {
 }
 
 type RetrieveSubCommentsRow struct {
-	Commentid   int32            `json:"commentid"`
-	Username    string           `json:"username"`
-	Createdat   pgtype.Timestamp `json:"createdat"`
-	Editedbool  bool             `json:"editedbool"`
-	Commentdata string           `json:"commentdata"`
+	Commentid   int32     `json:"commentid"`
+	Username    string    `json:"username"`
+	Createdat   time.Time `json:"createdat"`
+	Editedbool  bool      `json:"editedbool"`
+	Commentdata string    `json:"commentdata"`
 }
 
 func (q *Queries) RetrieveSubComments(ctx context.Context, arg *RetrieveSubCommentsParams) ([]*RetrieveSubCommentsRow, error) {
-	rows, err := q.db.Query(ctx, retrieveSubComments, arg.Pageid, arg.Parentid, arg.Limit)
+	rows, err := q.db.QueryContext(ctx, retrieveSubComments, arg.Pageid, arg.Parentid, arg.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -171,6 +176,9 @@ func (q *Queries) RetrieveSubComments(ctx context.Context, arg *RetrieveSubComme
 			return nil, err
 		}
 		items = append(items, &i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -190,6 +198,6 @@ type UpdateCommentParams struct {
 }
 
 func (q *Queries) UpdateComment(ctx context.Context, arg *UpdateCommentParams) error {
-	_, err := q.db.Exec(ctx, updateComment, arg.Commentdata, arg.Commentid)
+	_, err := q.db.ExecContext(ctx, updateComment, arg.Commentdata, arg.Commentid)
 	return err
 }
