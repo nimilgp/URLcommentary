@@ -18,14 +18,14 @@ INSERT INTO Users (
 `
 
 type CreateUserParams struct {
-	Username  string `json:"username"`
-	Firstname string `json:"firstname"`
-	Lastname  string `json:"lastname"`
-	Emailid   string `json:"emailid"`
+	Username  string
+	Firstname string
+	Lastname  string
+	Emailid   string
 }
 
-func (q *Queries) CreateUser(ctx context.Context, arg *CreateUserParams) error {
-	_, err := q.db.ExecContext(ctx, createUser,
+func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) error {
+	_, err := q.db.Exec(ctx, createUser,
 		arg.Username,
 		arg.Firstname,
 		arg.Lastname,
@@ -41,12 +41,12 @@ WHERE UserId = $2
 `
 
 type UpdateEmailIdParams struct {
-	Emailid string `json:"emailid"`
-	Userid  int32  `json:"userid"`
+	Emailid string
+	Userid  int32
 }
 
-func (q *Queries) UpdateEmailId(ctx context.Context, arg *UpdateEmailIdParams) error {
-	_, err := q.db.ExecContext(ctx, updateEmailId, arg.Emailid, arg.Userid)
+func (q *Queries) UpdateEmailId(ctx context.Context, arg UpdateEmailIdParams) error {
+	_, err := q.db.Exec(ctx, updateEmailId, arg.Emailid, arg.Userid)
 	return err
 }
 
@@ -57,11 +57,11 @@ WHERE UserId = $2
 `
 
 type UpdateUserNameParams struct {
-	Username string `json:"username"`
-	Userid   int32  `json:"userid"`
+	Username string
+	Userid   int32
 }
 
-func (q *Queries) UpdateUserName(ctx context.Context, arg *UpdateUserNameParams) error {
-	_, err := q.db.ExecContext(ctx, updateUserName, arg.Username, arg.Userid)
+func (q *Queries) UpdateUserName(ctx context.Context, arg UpdateUserNameParams) error {
+	_, err := q.db.Exec(ctx, updateUserName, arg.Username, arg.Userid)
 	return err
 }

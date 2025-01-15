@@ -29,11 +29,11 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data any, h
 	return nil
 }
 
-func (app *application) readIDParam(r *http.Request, paramName string) (int64, error) {
+func (app *application) readIDParam(r *http.Request, paramName string) (int32, error) {
 	params := httprouter.ParamsFromContext(r.Context())
 	id, err := strconv.ParseInt(params.ByName(paramName), 10, 64)
 	if err != nil || id < 1 {
 		return 0, errors.New("invalid id parameter")
 	}
-	return id, nil
+	return int32(id), nil
 }

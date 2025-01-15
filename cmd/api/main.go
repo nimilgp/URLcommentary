@@ -1,12 +1,17 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
+	"log"
 	"log/slog"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/jackc/pgx/v5"
+	"github.com/nimilgp/URLcommentary/internal/dblayer"
 )
 
 const version = "1.0.0"
@@ -17,14 +22,22 @@ type config struct {
 }
 
 type application struct {
-	config config
-	logger *slog.Logger
+	config  config
+	logger  *slog.Logger
+	queries *dblayer.Queries
+	ctx     context.Context
 }
 
 func main() {
+	ctx := context.Background()
+	conn, err := pgx.Connect(ctx, "user=postgres dbname=urlc")
+	if err != nil {
+		log.Fatal("Could Not Establish DB Connection")
+	}
+	defer conn.Close(ctx)
+	queries := dblayer.New(conn)
 
 	var cfg config
-
 	flag.IntVar(&cfg.port, "port", 3333, "API server port")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|production)")
 	flag.Parse()
@@ -32,8 +45,10 @@ func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 
 	app := &application{
-		config: cfg,
-		logger: logger,
+		config:  cfg,
+		logger:  logger,
+		queries: queries,
+		ctx:     ctx,
 	}
 
 	srv := &http.Server{
@@ -47,7 +62,7 @@ func main() {
 
 	logger.Info("Reminder", "CORS policy", "set before production")
 	logger.Info("starting server", "addr", srv.Addr, "env", cfg.env)
-	err := srv.ListenAndServe()
+	err = srv.ListenAndServe()
 	logger.Error(err.Error())
 	os.Exit(1)
 }

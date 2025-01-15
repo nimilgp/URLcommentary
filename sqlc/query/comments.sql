@@ -27,6 +27,6 @@ LIMIT $2;
 -- name: RetrieveSubComments :many
 SELECT CommentId, UserName, CreatedAt, EditedBool, CommentData
 FROM Comments, Users
-WHERE Comments.UserId = Users.UserId AND PageId = $1 AND ParentId = $2
+WHERE Comments.UserId = Users.UserId  AND ParentId = $1
 ORDER BY CreatedAt DESC
-LIMIT $3;
+LIMIT $2;

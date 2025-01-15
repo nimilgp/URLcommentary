@@ -5,39 +5,39 @@
 package dblayer
 
 import (
-	"time"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type Comment struct {
-	Commentid   int32     `json:"commentid"`
-	Pageid      int32     `json:"pageid"`
-	Userid      int32     `json:"userid"`
-	Createdat   time.Time `json:"createdat"`
-	Editedbool  bool      `json:"editedbool"`
-	Upvotes     int32     `json:"upvotes"`
-	Downvotes   int32     `json:"downvotes"`
-	Commentdata string    `json:"commentdata"`
-	Parentid    int32     `json:"parentid"`
+	Commentid   int32
+	Pageid      int32
+	Userid      int32
+	Createdat   pgtype.Timestamp
+	Editedbool  bool
+	Upvotes     int32
+	Downvotes   int32
+	Commentdata string
+	Parentid    int32
 }
 
 type Page struct {
-	Pageurl       string    `json:"pageurl"`
-	Pageid        int32     `json:"pageid"`
-	Commentscount int32     `json:"commentscount"`
-	Createdat     time.Time `json:"createdat"`
+	Pageurl       string
+	Pageid        int32
+	Commentscount int32
+	Createdat     pgtype.Timestamp
 }
 
 type User struct {
-	Userid    int32  `json:"userid"`
-	Username  string `json:"username"`
-	Firstname string `json:"firstname"`
-	Lastname  string `json:"lastname"`
-	Emailid   string `json:"emailid"`
+	Userid    int32
+	Username  string
+	Firstname string
+	Lastname  string
+	Emailid   string
 }
 
 type Userrelation struct {
-	Vieweruserid    int32  `json:"vieweruserid"`
-	Commentoruserid int32  `json:"commentoruserid"`
-	Tag             string `json:"tag"`
-	Positivity      bool   `json:"positivity"`
+	Vieweruserid    int32
+	Commentoruserid int32
+	Tag             string
+	Positivity      bool
 }

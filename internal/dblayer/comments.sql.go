@@ -7,7 +7,8 @@ package dblayer
 
 import (
 	"context"
-	"time"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createComment = `-- name: CreateComment :exec
@@ -19,14 +20,14 @@ INSERT INTO Comments (
 `
 
 type CreateCommentParams struct {
-	Pageid      int32  `json:"pageid"`
-	Userid      int32  `json:"userid"`
-	Commentdata string `json:"commentdata"`
-	Parentid    int32  `json:"parentid"`
+	Pageid      int32
+	Userid      int32
+	Commentdata string
+	Parentid    int32
 }
 
-func (q *Queries) CreateComment(ctx context.Context, arg *CreateCommentParams) error {
-	_, err := q.db.ExecContext(ctx, createComment,
+func (q *Queries) CreateComment(ctx context.Context, arg CreateCommentParams) error {
+	_, err := q.db.Exec(ctx, createComment,
 		arg.Pageid,
 		arg.Userid,
 		arg.Commentdata,
@@ -44,25 +45,25 @@ LIMIT $2
 `
 
 type RetrieveNewstCommentsParams struct {
-	Pageid int32 `json:"pageid"`
-	Limit  int32 `json:"limit"`
+	Pageid int32
+	Limit  int32
 }
 
 type RetrieveNewstCommentsRow struct {
-	Commentid   int32     `json:"commentid"`
-	Username    string    `json:"username"`
-	Createdat   time.Time `json:"createdat"`
-	Editedbool  bool      `json:"editedbool"`
-	Commentdata string    `json:"commentdata"`
+	Commentid   int32
+	Username    string
+	Createdat   pgtype.Timestamp
+	Editedbool  bool
+	Commentdata string
 }
 
-func (q *Queries) RetrieveNewstComments(ctx context.Context, arg *RetrieveNewstCommentsParams) ([]*RetrieveNewstCommentsRow, error) {
-	rows, err := q.db.QueryContext(ctx, retrieveNewstComments, arg.Pageid, arg.Limit)
+func (q *Queries) RetrieveNewstComments(ctx context.Context, arg RetrieveNewstCommentsParams) ([]RetrieveNewstCommentsRow, error) {
+	rows, err := q.db.Query(ctx, retrieveNewstComments, arg.Pageid, arg.Limit)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []*RetrieveNewstCommentsRow
+	var items []RetrieveNewstCommentsRow
 	for rows.Next() {
 		var i RetrieveNewstCommentsRow
 		if err := rows.Scan(
@@ -74,10 +75,7 @@ func (q *Queries) RetrieveNewstComments(ctx context.Context, arg *RetrieveNewstC
 		); err != nil {
 			return nil, err
 		}
-		items = append(items, &i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
+		items = append(items, i)
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -94,25 +92,25 @@ LIMIT $2
 `
 
 type RetrieveOldestCommentsParams struct {
-	Pageid int32 `json:"pageid"`
-	Limit  int32 `json:"limit"`
+	Pageid int32
+	Limit  int32
 }
 
 type RetrieveOldestCommentsRow struct {
-	Commentid   int32     `json:"commentid"`
-	Username    string    `json:"username"`
-	Createdat   time.Time `json:"createdat"`
-	Editedbool  bool      `json:"editedbool"`
-	Commentdata string    `json:"commentdata"`
+	Commentid   int32
+	Username    string
+	Createdat   pgtype.Timestamp
+	Editedbool  bool
+	Commentdata string
 }
 
-func (q *Queries) RetrieveOldestComments(ctx context.Context, arg *RetrieveOldestCommentsParams) ([]*RetrieveOldestCommentsRow, error) {
-	rows, err := q.db.QueryContext(ctx, retrieveOldestComments, arg.Pageid, arg.Limit)
+func (q *Queries) RetrieveOldestComments(ctx context.Context, arg RetrieveOldestCommentsParams) ([]RetrieveOldestCommentsRow, error) {
+	rows, err := q.db.Query(ctx, retrieveOldestComments, arg.Pageid, arg.Limit)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []*RetrieveOldestCommentsRow
+	var items []RetrieveOldestCommentsRow
 	for rows.Next() {
 		var i RetrieveOldestCommentsRow
 		if err := rows.Scan(
@@ -124,10 +122,7 @@ func (q *Queries) RetrieveOldestComments(ctx context.Context, arg *RetrieveOldes
 		); err != nil {
 			return nil, err
 		}
-		items = append(items, &i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
+		items = append(items, i)
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -138,32 +133,31 @@ func (q *Queries) RetrieveOldestComments(ctx context.Context, arg *RetrieveOldes
 const retrieveSubComments = `-- name: RetrieveSubComments :many
 SELECT CommentId, UserName, CreatedAt, EditedBool, CommentData
 FROM Comments, Users
-WHERE Comments.UserId = Users.UserId AND PageId = $1 AND ParentId = $2
+WHERE Comments.UserId = Users.UserId  AND ParentId = $1
 ORDER BY CreatedAt DESC
-LIMIT $3
+LIMIT $2
 `
 
 type RetrieveSubCommentsParams struct {
-	Pageid   int32 `json:"pageid"`
-	Parentid int32 `json:"parentid"`
-	Limit    int32 `json:"limit"`
+	Parentid int32
+	Limit    int32
 }
 
 type RetrieveSubCommentsRow struct {
-	Commentid   int32     `json:"commentid"`
-	Username    string    `json:"username"`
-	Createdat   time.Time `json:"createdat"`
-	Editedbool  bool      `json:"editedbool"`
-	Commentdata string    `json:"commentdata"`
+	Commentid   int32
+	Username    string
+	Createdat   pgtype.Timestamp
+	Editedbool  bool
+	Commentdata string
 }
 
-func (q *Queries) RetrieveSubComments(ctx context.Context, arg *RetrieveSubCommentsParams) ([]*RetrieveSubCommentsRow, error) {
-	rows, err := q.db.QueryContext(ctx, retrieveSubComments, arg.Pageid, arg.Parentid, arg.Limit)
+func (q *Queries) RetrieveSubComments(ctx context.Context, arg RetrieveSubCommentsParams) ([]RetrieveSubCommentsRow, error) {
+	rows, err := q.db.Query(ctx, retrieveSubComments, arg.Parentid, arg.Limit)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []*RetrieveSubCommentsRow
+	var items []RetrieveSubCommentsRow
 	for rows.Next() {
 		var i RetrieveSubCommentsRow
 		if err := rows.Scan(
@@ -175,10 +169,7 @@ func (q *Queries) RetrieveSubComments(ctx context.Context, arg *RetrieveSubComme
 		); err != nil {
 			return nil, err
 		}
-		items = append(items, &i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
+		items = append(items, i)
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -193,11 +184,11 @@ WHERE CommentId = $2
 `
 
 type UpdateCommentParams struct {
-	Commentdata string `json:"commentdata"`
-	Commentid   int32  `json:"commentid"`
+	Commentdata string
+	Commentid   int32
 }
 
-func (q *Queries) UpdateComment(ctx context.Context, arg *UpdateCommentParams) error {
-	_, err := q.db.ExecContext(ctx, updateComment, arg.Commentdata, arg.Commentid)
+func (q *Queries) UpdateComment(ctx context.Context, arg UpdateCommentParams) error {
+	_, err := q.db.Exec(ctx, updateComment, arg.Commentdata, arg.Commentid)
 	return err
 }
