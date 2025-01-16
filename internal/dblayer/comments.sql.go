@@ -39,7 +39,7 @@ func (q *Queries) CreateComment(ctx context.Context, arg CreateCommentParams) er
 const retrieveNewstComments = `-- name: RetrieveNewstComments :many
 SELECT CommentId, UserName, CreatedAt, EditedBool, CommentData
 FROM Comments, Users
-WHERE Comments.UserId = Users.UserId AND PageId = $1
+WHERE Comments.UserId = Users.UserId AND PageId = $1 AND ParentId = 0
 ORDER BY CreatedAt DESC
 LIMIT $2
 `
@@ -86,7 +86,7 @@ func (q *Queries) RetrieveNewstComments(ctx context.Context, arg RetrieveNewstCo
 const retrieveOldestComments = `-- name: RetrieveOldestComments :many
 SELECT CommentId, UserName, CreatedAt, EditedBool, CommentData
 FROM Comments, Users
-WHERE Comments.UserId = Users.UserId AND PageId = $1
+WHERE Comments.UserId = Users.UserId AND PageId = $1 AND ParentId = 0
 ORDER BY CreatedAt ASC
 LIMIT $2
 `
