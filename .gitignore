@@ -1,0 +1,5 @@
+db.sqlite
+bin/
+tmp/
+build-errors.log
+README.html
