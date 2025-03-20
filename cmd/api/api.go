@@ -20,27 +20,13 @@ func extR2(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("route 2"))
 }
 
-func intR3(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("route 3"))
-}
-
-func intR4(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("route 4"))
-}
-
 func (s *APIServer) Run() error {
-	extR := http.NewServeMux()
-	extR.HandleFunc("GET /1", extR1)
-	extR.HandleFunc("GET /2", extR2)
-
-	intR := http.NewServeMux()
-	intR.HandleFunc("GET /3", intR3)
-	intR.HandleFunc("GET /4", intR4)
+	subR := http.NewServeMux()
+	subR.HandleFunc("GET /1", extR1)
+	subR.HandleFunc("GET /2", extR2)
 
 	rootR := http.NewServeMux()
-	rootR.Handle("/ext/", http.StripPrefix("/ext", extR))
-	rootR.Handle("/int/", http.StripPrefix("/int", intR))
-
+	rootR.Handle("/api/v1/", http.StripPrefix("/api/v1", subR))
 	server := http.Server{
 		Addr:    s.baseURL,
 		Handler: rootR,
