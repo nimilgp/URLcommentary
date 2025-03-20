@@ -27,7 +27,8 @@ CREATE TABLE ParentComments (
     SentimentScore INTEGER DEFAULT -1 NOT NULL,
     ChildCommentCount INTEGER DEFAULT 0 NOT NULL,
     FOREIGN KEY (PageId) REFERENCES Pages(PageId),
-    FOREIGN KEY (UserId) REFERENCES Users(UserId)
+    FOREIGN KEY (UserId) REFERENCES Users(UserId),
+    PRIMARY KEY (PageId, CommentId)
 );
 
 CREATE TABLE ChildComments (
@@ -38,12 +39,14 @@ CREATE TABLE ChildComments (
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     Content TEXT NOT NULL,
     FOREIGN KEY (PageId) REFERENCES Pages(PageId),
-    FOREIGN KEY (UserId) REFERENCES Users(UserId)
+    FOREIGN KEY (UserId) REFERENCES Users(UserId),
+    PRIMARY KEY (PageId, ChildComentId)
 );
 
 CREATE TABLE LikesHistory (
     PageId INTEGER NOT NULL REFERENCES Pages(PageId),
     UserId INTEGER NOT NULL REFERENCES Users(UserId),
     CommentId INTEGER NOT NULL REFERENCES ParentComments(CommentId),
-    LikeValue INTEGER NOT NULL DEFAULT 0
+    LikeValue INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (PageId, UserId, CommentId)
 );
