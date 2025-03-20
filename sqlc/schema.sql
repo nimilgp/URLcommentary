@@ -9,11 +9,12 @@ CREATE TABLE Pages (
 
 CREATE TABLE Users (
     UserId SERIAL PRIMARY KEY,
-    UserName TEXT UNIQUE NOT NULL,
+    UserName TEXT NOT NULL,
     FullName TEXT NOT NULL,
-    EmailId TEXT NOT NULL,
+    EmailId TEXT UNIQUE NOT NULL,
     JoinedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    AboutMe TEXT DEFAULT "Real people, real thoughts..." NOT NULL
+    AboutMe TEXT DEFAULT "Real people, real thoughts..." NOT NULL,
+    PasswordHash TEXT NOT NULL
 );
 
 CREATE TABLE ParentComments (
@@ -33,7 +34,7 @@ CREATE TABLE ParentComments (
 
 CREATE TABLE ChildComments (
     ParentCommentId INTEGER NOT NULL REFERENCES ParentComments(CommentId),
-    ChildComentId INTEGER NOT NULL,
+    ChildCommentId INTEGER NOT NULL,
     PageId INTEGER NOT NULL,
     UserId INTEGER NOT NULL,
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
