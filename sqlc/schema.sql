@@ -1,0 +1,49 @@
+CREATE TABLE Pages (
+    PageURL TEXT PRIMARY KEY,
+    PageId SERIAL NOT NULL,
+    CommentsCount INTEGER DEFAULT 0 NOT NULL,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    PageSummary TEXT DEFAULT "Not enough info" NOT NULL,
+    PageScore INTEGER DEFAULT -1 NOT NULL
+);
+
+CREATE TABLE Users (
+    UserId SERIAL PRIMARY KEY,
+    UserName TEXT UNIQUE NOT NULL,
+    FullName TEXT NOT NULL,
+    EmailId TEXT NOT NULL,
+    JoinedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    AboutMe TEXT DEFAULT "Real people, real thoughts..." NOT NULL
+);
+
+CREATE TABLE ParentComments (
+    CommentId INTEGER NOT NULL,
+    PageId INTEGER NOT NULL,
+    UserId INTEGER NOT NULL,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    UpVotes INTEGER DEFAULT 0 NOT NULL,
+    DownVotes INTEGER DEFAULT 0 NOT NULL,
+    Content TEXT NOT NULL,
+    SentimentScore INTEGER DEFAULT -1 NOT NULL,
+    ChildCommentCount INTEGER DEFAULT 0 NOT NULL,
+    FOREIGN KEY (PageId) REFERENCES Pages(PageId),
+    FOREIGN KEY (UserId) REFERENCES Users(UserId)
+);
+
+CREATE TABLE ChildComments (
+    ParentCommentId INTEGER NOT NULL REFERENCES ParentComments(CommentId),
+    ChildComentId INTEGER NOT NULL,
+    PageId INTEGER NOT NULL,
+    UserId INTEGER NOT NULL,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    Content TEXT NOT NULL,
+    FOREIGN KEY (PageId) REFERENCES Pages(PageId),
+    FOREIGN KEY (UserId) REFERENCES Users(UserId)
+);
+
+CREATE TABLE LikesHistory (
+    PageId INTEGER NOT NULL REFERENCES Pages(PageId),
+    UserId INTEGER NOT NULL REFERENCES Users(UserId),
+    CommentId INTEGER NOT NULL REFERENCES ParentComments(CommentId),
+    LikeValue INTEGER NOT NULL DEFAULT 0
+);
