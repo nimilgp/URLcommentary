@@ -1,8 +1,8 @@
 -- name: CreateUser :exec
 INSERT INTO Users (
-    UserName, FullName, EmailId
+    UserName, FullName, EmailId, PasswordHash
 ) VALUES (
-    $1, $2, $3
+    $1, $2, $3, $4
 );
 
 -- name: RetrivePasswordHash :one
