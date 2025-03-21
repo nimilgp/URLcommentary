@@ -34,3 +34,4 @@ newdb: dropdb
 	@sudo -u postgres psql -c "CREATE DATABASE urlc;"
 	@sudo -u postgres psql -d urlc -f ./sqlc/schema.sql
 	@sudo -u postgres psql -d urlc -f ./sqlc/index.sql
+	@sudo -u postgres psql -d urlc -f ./sqlc/triggers.sql
