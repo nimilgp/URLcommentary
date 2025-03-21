@@ -49,5 +49,7 @@ CREATE TABLE LikesHistory (
     UserId INTEGER NOT NULL,
     CommentId INTEGER NOT NULL,
     LikeValue INTEGER NOT NULL DEFAULT 0,
+    FOREIGN KEY(UserId) REFERENCES Users(UserId),
+    FOREIGN KEY(PageId) REFERENCES Pages(PageId),
     PRIMARY KEY (PageId, UserId, CommentId)
 );
