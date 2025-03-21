@@ -23,3 +23,14 @@ test:
 .PHONY:	run
 run: build
 	@./bin/srv
+
+.PHONY: dropdb
+dropdb:
+	@sudo -u postgres psql -c "DROP DATABASE IF EXISTS urlc;"
+
+## newdb: replace old db with a new one
+.PHONY: newdb
+newdb: dropdb
+	@sudo -u postgres psql -c "CREATE DATABASE urlc;"
+	@sudo -u postgres psql -d urlc -f ./sqlc/schema.sql
+	@sudo -u postgres psql -d urlc -f ./sqlc/index.sql
