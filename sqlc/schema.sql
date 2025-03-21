@@ -1,9 +1,9 @@
 CREATE TABLE Pages (
     PageURL TEXT PRIMARY KEY,
-    PageId SERIAL NOT NULL,
+    PageId SERIAL NOT NULL UNIQUE,
     CommentsCount INTEGER DEFAULT 0 NOT NULL,
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    PageSummary TEXT DEFAULT "Not enough info" NOT NULL,
+    PageSummary TEXT DEFAULT 'Not enough info' NOT NULL,
     PageScore INTEGER DEFAULT -1 NOT NULL
 );
 
@@ -13,7 +13,7 @@ CREATE TABLE Users (
     FullName TEXT NOT NULL,
     EmailId TEXT UNIQUE NOT NULL,
     JoinedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    AboutMe TEXT DEFAULT "Real people, real thoughts..." NOT NULL,
+    AboutMe TEXT DEFAULT 'Real people, real thoughts...' NOT NULL,
     PasswordHash TEXT NOT NULL
 );
 
@@ -27,27 +27,27 @@ CREATE TABLE ParentComments (
     Content TEXT NOT NULL,
     SentimentScore INTEGER DEFAULT -1 NOT NULL,
     ChildCommentCount INTEGER DEFAULT 0 NOT NULL,
-    FOREIGN KEY (PageId) REFERENCES Pages(PageId),
-    FOREIGN KEY (UserId) REFERENCES Users(UserId),
+    FOREIGN KEY(UserId) REFERENCES Users(UserId),
+    FOREIGN KEY(PageId) REFERENCES Pages(PageId),
     PRIMARY KEY (PageId, CommentId)
 );
 
 CREATE TABLE ChildComments (
-    ParentCommentId INTEGER NOT NULL REFERENCES ParentComments(CommentId),
+    ParentCommentId INTEGER NOT NULL,
     ChildCommentId INTEGER NOT NULL,
-    PageId INTEGER NOT NULL,
     UserId INTEGER NOT NULL,
+    PageId INTEGER NOT NULL,
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     Content TEXT NOT NULL,
-    FOREIGN KEY (PageId) REFERENCES Pages(PageId),
-    FOREIGN KEY (UserId) REFERENCES Users(UserId),
-    PRIMARY KEY (PageId, ChildComentId)
+    FOREIGN KEY(UserId) REFERENCES Users(UserId),
+    FOREIGN KEY(PageId) REFERENCES Pages(PageId),
+    PRIMARY KEY (PageId, ParentCommentId, ChildCommentId)
 );
 
 CREATE TABLE LikesHistory (
-    PageId INTEGER NOT NULL REFERENCES Pages(PageId),
-    UserId INTEGER NOT NULL REFERENCES Users(UserId),
-    CommentId INTEGER NOT NULL REFERENCES ParentComments(CommentId),
+    PageId INTEGER NOT NULL,
+    UserId INTEGER NOT NULL,
+    CommentId INTEGER NOT NULL,
     LikeValue INTEGER NOT NULL DEFAULT 0,
     PRIMARY KEY (PageId, UserId, CommentId)
 );
