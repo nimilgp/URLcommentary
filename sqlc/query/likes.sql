@@ -13,6 +13,11 @@ SELECT CommentId, LikeValue
 FROM LikesHistory
 WHERE PageId = $1 AND UserId = $2;
 
+-- name: RetrieveLike :many
+SELECT LikeValue
+FROM LikesHistory
+WHERE PageId = $1 AND UserId = $2 AND CommentId = $3;
+
 -- name: UpdateLikeHistory :exec
 UPDATE LikesHistory
 SET LikeValue = $1
