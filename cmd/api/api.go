@@ -1,35 +1,40 @@
 package api
 
-import "net/http"
+import (
+	"context"
+	"log/slog"
+	"net/http"
+	"time"
+
+	"github.com/nimilgp/URLcommentary/internal/config"
+	"github.com/nimilgp/URLcommentary/internal/dblayer"
+)
 
 type APIServer struct {
 	baseURL string
+	version string
+	querier *dblayer.Queries
+	ctx     context.Context
 }
 
-func GetAPIServer(baseURL string) *APIServer {
+func GetAPIServer(querier *dblayer.Queries, ctx context.Context) *APIServer {
 	return &APIServer{
-		baseURL: baseURL,
+		baseURL: config.Cfg.Env.BaseURL,
+		version: config.Cfg.Env.Version,
+		querier: querier,
+		ctx:     ctx,
 	}
 }
 
-func extR1(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("route 1"))
-}
+func (s *APIServer) Run(logger *slog.Logger) error {
 
-func extR2(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("route 2"))
-}
-
-func (s *APIServer) Run() error {
-	subR := http.NewServeMux()
-	subR.HandleFunc("GET /1", extR1)
-	subR.HandleFunc("GET /2", extR2)
-
-	rootR := http.NewServeMux()
-	rootR.Handle("/api/v1/", http.StripPrefix("/api/v1", subR))
 	server := http.Server{
-		Addr:    s.baseURL,
-		Handler: rootR,
+		Addr:         s.baseURL,
+		Handler:      s.routes(),
+		IdleTimeout:  time.Minute,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		ErrorLog:     slog.NewLogLogger(logger.Handler(), slog.LevelError),
 	}
 	return server.ListenAndServe()
 }
