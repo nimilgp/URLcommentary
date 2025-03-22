@@ -11,9 +11,9 @@ import (
 
 func (s *APIServer) postParentComment(w http.ResponseWriter, r *http.Request) {
 	var input struct {
-		Pageid    int32               `json: pageid`
-		Userid    int32               `json: userid`
-		Content   string              `json: content`
+		Pageid    int32               `json: Pageid`
+		Userid    int32               `json: Userid`
+		Content   string              `json: Content`
 		Validator validator.Validator `json: -`
 	}
 
@@ -23,8 +23,8 @@ func (s *APIServer) postParentComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	input.Validator.CheckField(input.Pageid != 0, "PageId", "PageId required")
-	input.Validator.CheckField(input.Userid != 0, "UserId", "UserId required")
+	input.Validator.CheckField(input.Pageid != 0, "PageId", "Pageid required")
+	input.Validator.CheckField(input.Userid != 0, "UserId", "Userid required")
 	input.Validator.CheckField(input.Content != "", "Content", "Content required")
 
 	if input.Validator.HasErrors() {
@@ -49,10 +49,10 @@ func (s *APIServer) postParentComment(w http.ResponseWriter, r *http.Request) {
 
 func (s *APIServer) postChildComment(w http.ResponseWriter, r *http.Request) {
 	var input struct {
-		Pageid          int32               `json: pageid`
-		Userid          int32               `json: userid`
-		Parentcommentid int32               `json: parentcommentid`
-		Content         string              `json: content`
+		Pageid          int32               `json: Pageid`
+		Userid          int32               `json: Userid`
+		Parentcommentid int32               `json: Parentcommentid`
+		Content         string              `json: Content`
 		Validator       validator.Validator `json: -`
 	}
 
@@ -62,9 +62,9 @@ func (s *APIServer) postChildComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	input.Validator.CheckField(input.Pageid != 0, "Pageid", "PageId required")
-	input.Validator.CheckField(input.Userid != 0, "UserId", "UserId required")
-	input.Validator.CheckField(input.Parentcommentid != 0, "ParentCommentId", "UserId required")
+	input.Validator.CheckField(input.Pageid != 0, "Pageid", "Pageid required")
+	input.Validator.CheckField(input.Userid != 0, "Userid", "Userid required")
+	input.Validator.CheckField(input.Parentcommentid != 0, "Parentcommentid", "Parentcommentid required")
 	input.Validator.CheckField(input.Content != "", "Content", "Content required")
 
 	if input.Validator.HasErrors() {
