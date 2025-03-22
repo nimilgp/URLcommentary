@@ -46,3 +46,44 @@ func (s *APIServer) postParentComment(w http.ResponseWriter, r *http.Request) {
 		s.serverError(w, r, err)
 	}
 }
+
+func (s *APIServer) postChildComment(w http.ResponseWriter, r *http.Request) {
+	var input struct {
+		Pageid          int32               `json: pageid`
+		Userid          int32               `json: userid`
+		Parentcommentid int32               `json: parentcommentid`
+		Content         string              `json: content`
+		Validator       validator.Validator `json: -`
+	}
+
+	err := request.DecodeJSON(w, r, &input)
+	if err != nil {
+		s.badRequest(w, r, err)
+		return
+	}
+
+	input.Validator.CheckField(input.Pageid != 0, "Pageid", "PageId required")
+	input.Validator.CheckField(input.Userid != 0, "UserId", "UserId required")
+	input.Validator.CheckField(input.Parentcommentid != 0, "ParentCommentId", "UserId required")
+	input.Validator.CheckField(input.Content != "", "Content", "Content required")
+
+	if input.Validator.HasErrors() {
+		s.failedValidation(w, r, input.Validator)
+		return
+	}
+
+	arg := dblayer.CreateChildCommentParams{
+		Pageid:          input.Pageid,
+		Userid:          input.Userid,
+		Content:         input.Content,
+		Parentcommentid: input.Parentcommentid,
+	}
+	commentid, err := s.querier.CreateChildComment(s.ctx, arg)
+	if err != nil {
+		s.serverError(w, r, err)
+	}
+	err = response.JSON(w, http.StatusOK, envelope{"comment-id": commentid})
+	if err != nil {
+		s.serverError(w, r, err)
+	}
+}
