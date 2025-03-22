@@ -11,7 +11,7 @@ func (s *APIServer) addVersionPrefix(subR *http.ServeMux) http.Handler {
 
 func (s *APIServer) routes() http.Handler {
 	subR := http.NewServeMux()
-	subR.HandleFunc("GET /status", s.status)
+	subR.HandleFunc("GET /healthcheck", s.getHealthcheck)
 
 	return s.addVersionPrefix(subR)
 }

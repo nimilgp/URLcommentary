@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "urlc-api-endpoints",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
