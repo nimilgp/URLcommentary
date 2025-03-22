@@ -6,6 +6,7 @@ require (
 	github.com/jackc/pgx/v5 v5.7.2
 	github.com/joho/godotenv v1.5.1
 	github.com/lmittmann/tint v1.0.7
+	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394
 )
 
 require (
