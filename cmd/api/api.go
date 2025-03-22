@@ -28,7 +28,7 @@ func GetAPIServer(querier *dblayer.Queries, ctx context.Context) *APIServer {
 }
 
 func (s *APIServer) Run(logger *slog.Logger) error {
-
+	s.logger = logger
 	server := http.Server{
 		Addr:         s.baseURL,
 		Handler:      s.routes(),
