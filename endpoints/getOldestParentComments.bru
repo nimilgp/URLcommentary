@@ -1,0 +1,11 @@
+meta {
+  name: getOldestParentComments
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://{{base-url}}/api/v{{version}}/oldest/comments/1
+  body: none
+  auth: none
+}
