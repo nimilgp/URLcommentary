@@ -39,3 +39,11 @@ newdb: dropdb
 	@sudo -u postgres psql -d urlc -f ./sqlc/schema.sql
 	@sudo -u postgres psql -d urlc -f ./sqlc/index.sql
 	@sudo -u postgres psql -d urlc -f ./sqlc/triggers.sql
+
+## testdb: creates and poluates db for testing
+.PHONY: testdb
+testdb: newdb
+	@sudo -u postgres psql -d urlc -f ./sqlc/dummy/pages.sql
+	@sudo -u postgres psql -d urlc -f ./sqlc/dummy/users.sql
+	@sudo -u postgres psql -d urlc -f ./sqlc/dummy/parentComments.sql
+	@sudo -u postgres psql -d urlc -f ./sqlc/dummy/childComments.sql
