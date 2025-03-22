@@ -2,9 +2,11 @@ package api
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/nimilgp/URLcommentary/internal/dblayer"
 	"github.com/nimilgp/URLcommentary/internal/request"
+	"github.com/nimilgp/URLcommentary/internal/response"
 	"github.com/nimilgp/URLcommentary/internal/validator"
 )
 
@@ -71,5 +73,32 @@ func (s *APIServer) postLike(w http.ResponseWriter, r *http.Request) {
 			s.serverError(w, r, err)
 			return
 		}
+	}
+}
+
+func (s *APIServer) getLikeHistory(w http.ResponseWriter, r *http.Request) {
+	param1 := r.PathValue("pageid")
+	pageId, err := strconv.Atoi(param1)
+	if err != nil {
+		s.logger.Info("invalid param", "pageid", param1)
+	}
+
+	param2 := r.PathValue("userid")
+	userid, err := strconv.Atoi(param2)
+	if err != nil {
+		s.logger.Info("invalid param", "offset", param2)
+	}
+
+	arg := dblayer.RetrieveLikeHistoryParams{
+		Pageid: int32(pageId),
+		Userid: int32(userid),
+	}
+	history, err := s.querier.RetrieveLikeHistory(s.ctx, arg)
+	if err != nil {
+		s.logger.Warn("get like history failed")
+	}
+	err = response.JSON(w, http.StatusOK, envelope{"like-history": history})
+	if err != nil {
+		s.serverError(w, r, err)
 	}
 }
