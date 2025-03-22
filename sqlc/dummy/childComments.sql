@@ -1,0 +1,21 @@
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (1, 1, 1, 'I agree with your point.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (1, 1, 2, 'Thats a good question.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (1, 1, 3, 'I have a similar experience.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (1, 1, 4, 'Could you elaborate?');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (1, 1, 5, 'I think you are right.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (1, 1, 6, 'This is very helpful!');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (1, 1, 7, 'I have a follow-up question.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (1, 1, 8, 'Thanks for the insight.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (1, 1, 9, 'Im not sure I understand.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (1, 1, 10, 'This is a great discussion.');
+
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (2, 1, 1, 'I see your point.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (2, 1, 2, 'Interesting perspective.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (2, 1, 3, 'I have a different opinion.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (2, 1, 4, 'Lets discuss this further.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (2, 1, 5, 'This is a complex issue.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (3, 1, 1, 'I completely agree.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (3, 1, 2, 'That makes sense.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (3, 1, 3, 'I have a counter-argument.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (3, 1, 4, 'This is very informative.');
+INSERT INTO ChildComments (PageId, ParentCommentId, UserId, Content) VALUES (3, 1, 5, 'I appreciate your input.');

@@ -1,0 +1,10 @@
+INSERT INTO Pages (PageURL) VALUES ('https://www.example.com/page1');
+INSERT INTO Pages (PageURL) VALUES ('https://www.example.com/page2');
+INSERT INTO Pages (PageURL) VALUES ('https://www.example.com/page3');
+INSERT INTO Pages (PageURL) VALUES ('https://www.example.com/page4');
+INSERT INTO Pages (PageURL) VALUES ('https://www.example.com/page5');
+INSERT INTO Pages (PageURL) VALUES ('https://www.example.com/page6');
+INSERT INTO Pages (PageURL) VALUES ('https://www.example.com/page7');
+INSERT INTO Pages (PageURL) VALUES ('https://www.example.com/page8');
+INSERT INTO Pages (PageURL) VALUES ('https://www.example.com/page9');
+INSERT INTO Pages (PageURL) VALUES ('https://www.example.com/page10');
