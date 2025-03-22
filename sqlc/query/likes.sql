@@ -1,3 +1,13 @@
+-- name: DoesLikeExist :one
+SELECT EXISTS (
+    SELECT *
+    FROM LikesHistory
+    WHERE 
+        PageId = $1 AND
+        UserId = $2 AND
+        CommentId = $3
+);
+
 -- name: CreateLikeHistory :exec
 INSERT INTO LikesHistory (
     PageId,
@@ -13,7 +23,7 @@ SELECT CommentId, LikeValue
 FROM LikesHistory
 WHERE PageId = $1 AND UserId = $2;
 
--- name: RetrieveLike :many
+-- name: RetrieveLike :one
 SELECT LikeValue
 FROM LikesHistory
 WHERE PageId = $1 AND UserId = $2 AND CommentId = $3;

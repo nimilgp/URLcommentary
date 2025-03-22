@@ -37,7 +37,31 @@ func (q *Queries) CreateLikeHistory(ctx context.Context, arg CreateLikeHistoryPa
 	return err
 }
 
-const retrieveLike = `-- name: RetrieveLike :many
+const doesLikeExist = `-- name: DoesLikeExist :one
+SELECT EXISTS (
+    SELECT pageid, userid, commentid, likevalue
+    FROM LikesHistory
+    WHERE 
+        PageId = $1 AND
+        UserId = $2 AND
+        CommentId = $3
+)
+`
+
+type DoesLikeExistParams struct {
+	Pageid    int32
+	Userid    int32
+	Commentid int32
+}
+
+func (q *Queries) DoesLikeExist(ctx context.Context, arg DoesLikeExistParams) (bool, error) {
+	row := q.db.QueryRow(ctx, doesLikeExist, arg.Pageid, arg.Userid, arg.Commentid)
+	var exists bool
+	err := row.Scan(&exists)
+	return exists, err
+}
+
+const retrieveLike = `-- name: RetrieveLike :one
 SELECT LikeValue
 FROM LikesHistory
 WHERE PageId = $1 AND UserId = $2 AND CommentId = $3
@@ -49,24 +73,11 @@ type RetrieveLikeParams struct {
 	Commentid int32
 }
 
-func (q *Queries) RetrieveLike(ctx context.Context, arg RetrieveLikeParams) ([]int32, error) {
-	rows, err := q.db.Query(ctx, retrieveLike, arg.Pageid, arg.Userid, arg.Commentid)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []int32
-	for rows.Next() {
-		var likevalue int32
-		if err := rows.Scan(&likevalue); err != nil {
-			return nil, err
-		}
-		items = append(items, likevalue)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
+func (q *Queries) RetrieveLike(ctx context.Context, arg RetrieveLikeParams) (int32, error) {
+	row := q.db.QueryRow(ctx, retrieveLike, arg.Pageid, arg.Userid, arg.Commentid)
+	var likevalue int32
+	err := row.Scan(&likevalue)
+	return likevalue, err
 }
 
 const retrieveLikeHistory = `-- name: RetrieveLikeHistory :many
