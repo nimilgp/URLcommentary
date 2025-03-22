@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION set_commentid_parentcomments()
 RETURNS TRIGGER AS $$
 BEGIN
-    SELECT COALESCE(MAX(CommentId), -1) + 1 INTO NEW.CommentId
+    SELECT COALESCE(MAX(CommentId), 0) + 1 INTO NEW.CommentId
     FROM ParentComments
     WHERE Pageid = NEW.Pageid;
     RETURN NEW;
@@ -16,7 +16,7 @@ EXECUTE FUNCTION set_commentid_parentcomments();
 CREATE OR REPLACE FUNCTION set_commentid_childcomments()
 RETURNS TRIGGER AS $$
 BEGIN
-    SELECT COALESCE(MAX(ChildCommentId), -1) + 1 INTO NEW.ChildCommentId
+    SELECT COALESCE(MAX(ChildCommentId), 0) + 1 INTO NEW.ChildCommentId
     FROM ChildComments
     WHERE Pageid = NEW.Pageid;
     RETURN NEW;
