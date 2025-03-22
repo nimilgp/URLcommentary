@@ -5,7 +5,11 @@ meta {
 }
 
 get {
-  url: http://{{base-url}}/api/v{{version}}/healthcheck
+  url: http://{{base-url}}/api/v{{version}}/page/details?forurl=youtube
   body: none
   auth: none
+}
+
+params:query {
+  forurl: youtube
 }
