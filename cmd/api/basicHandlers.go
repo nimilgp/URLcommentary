@@ -13,7 +13,7 @@ func (s *APIServer) getHealthcheck(w http.ResponseWriter, r *http.Request) {
 		"deployment-type": "development",
 		"version":         config.Cfg.Version,
 	}
-	err := response.JSON(w, http.StatusOK, data)
+	err := response.JSON(w, http.StatusOK, envelope{"healthcheck": data})
 	if err != nil {
 		s.serverError(w, r, err)
 	}
