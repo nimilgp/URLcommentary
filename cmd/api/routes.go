@@ -19,6 +19,7 @@ func (s *APIServer) routes() http.Handler {
 	subR.HandleFunc("GET /child/comments/{pageid}/{commentid}/{offset}", s.getChildComments)
 	subR.HandleFunc("POST /parent/comment", s.postParentComment)
 	subR.HandleFunc("POST /child/comment", s.postChildComment)
+	subR.HandleFunc("POST /like", s.postLike)
 
 	return s.addVersionPrefix(subR)
 }
