@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/nimilgp/URLcommentary/internal/response"
+	"github.com/nimilgp/URLcommentary/internal/validator"
 )
 
 func (s *APIServer) logServerError(r *http.Request, err error) {
@@ -53,12 +54,12 @@ func (app *APIServer) badRequest(w http.ResponseWriter, r *http.Request, err err
 	app.errorMessage(w, r, http.StatusBadRequest, err.Error(), nil)
 }
 
-// func (app *APIServer) failedValidation(w http.ResponseWriter, r *http.Request, v validator.Validator) {
-// 	err := response.JSON(w, http.StatusUnprocessableEntity, v)
-// 	if err != nil {
-// 		app.serverError(w, r, err)
-// 	}
-// }
+func (app *APIServer) failedValidation(w http.ResponseWriter, r *http.Request, v validator.Validator) {
+	err := response.JSON(w, http.StatusUnprocessableEntity, v)
+	if err != nil {
+		app.serverError(w, r, err)
+	}
+}
 
 func (app *APIServer) invalidAuthenticationToken(w http.ResponseWriter, r *http.Request) {
 	headers := make(http.Header)
