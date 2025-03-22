@@ -15,10 +15,10 @@ import (
 func main() {
 	logger := slog.New(tint.NewHandler(os.Stdout, &tint.Options{Level: slog.LevelDebug}))
 	ctx := context.Background()
-	db := database.New(config.Cfg.Env.Dsn, ctx)
+	db := database.New(config.Cfg.Dsn, ctx)
 	defer db.Close(ctx)
 
-	logger.Info("starting server", "base url", config.Cfg.Env.BaseURL)
+	logger.Info("starting server", "base url", config.Cfg.BaseURL)
 	if err := api.GetAPIServer(db.Queries, ctx).Run(logger); err != nil {
 		log.Fatal(err)
 	}

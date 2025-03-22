@@ -7,14 +7,10 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type Env struct {
-	Version string
-	BaseURL string
-	Dsn     string
-}
-
 type Config struct {
-	Env        Env
+	Version    string
+	BaseURL    string
+	Dsn        string
 	OffsetSize int
 }
 
@@ -24,11 +20,9 @@ func initConfig() Config {
 	godotenv.Load()
 
 	return Config{
-		Env: Env{
-			Version: getString("version", "1"),
-			BaseURL: getString("base-url", "localhost:3333"),
-			Dsn:     getString("dsn", "user=postgres dbname=urlc"),
-		},
+		Version:    getString("version", "1"),
+		BaseURL:    getString("base-url", "localhost:3333"),
+		Dsn:        getString("dsn", "user=postgres dbname=urlc"),
 		OffsetSize: getInt("offset-size", 5),
 	}
 }

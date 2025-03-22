@@ -19,8 +19,8 @@ type APIServer struct {
 
 func GetAPIServer(querier *dblayer.Queries, ctx context.Context) *APIServer {
 	return &APIServer{
-		baseURL: config.Cfg.Env.BaseURL,
-		version: config.Cfg.Env.Version,
+		baseURL: config.Cfg.BaseURL,
+		version: config.Cfg.Version,
 		querier: querier,
 		ctx:     ctx,
 	}
