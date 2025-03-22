@@ -12,7 +12,7 @@ func (s *APIServer) getPagedetails(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		s.logger.Warn("get page details failed")
 	}
-	err = response.JSON(w, http.StatusOK, envelope{"healthcheck": pageDetails})
+	err = response.JSON(w, http.StatusOK, envelope{"page-details": pageDetails})
 	if err != nil {
 		s.serverError(w, r, err)
 	}
