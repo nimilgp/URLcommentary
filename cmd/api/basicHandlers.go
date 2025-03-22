@@ -15,6 +15,6 @@ func (s *APIServer) getHealthcheck(w http.ResponseWriter, r *http.Request) {
 	}
 	err := response.JSON(w, http.StatusOK, data)
 	if err != nil {
-		w.WriteHeader(500)
+		s.serverError(w, r, err)
 	}
 }

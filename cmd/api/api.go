@@ -15,6 +15,7 @@ type APIServer struct {
 	version string
 	querier *dblayer.Queries
 	ctx     context.Context
+	logger  *slog.Logger
 }
 
 func GetAPIServer(querier *dblayer.Queries, ctx context.Context) *APIServer {
