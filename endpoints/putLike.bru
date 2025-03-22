@@ -1,0 +1,20 @@
+meta {
+  name: putLike
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://{{base-url}}/api/v{{version}}/like
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "pageid":1,
+    "userid":1,
+    "commentid":1,
+    "likevalue":-1
+  }
+}
