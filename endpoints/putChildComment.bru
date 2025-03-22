@@ -1,0 +1,20 @@
+meta {
+  name: putChildComment
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://{{base-url}}/api/v{{version}}/child/comment
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "pageid":2,
+    "userid":1,
+    "parentcommentid":1,
+    "content":"hello how do you do?"
+  }
+}
