@@ -73,13 +73,14 @@ SELECT
     Content
 FROM ChildComments, Users
 WHERE PageId = $1 AND ParentCommentId = $2 AND ChildComments.UserId = Users.UserId  
-LIMIT $2 OFFSET $3
+LIMIT $3 OFFSET $4
 `
 
 type RetrieveChildCommentsParams struct {
-	Pageid int32
-	Limit  int32
-	Offset int32
+	Pageid          int32
+	Parentcommentid int32
+	Limit           int32
+	Offset          int32
 }
 
 type RetrieveChildCommentsRow struct {
@@ -89,7 +90,12 @@ type RetrieveChildCommentsRow struct {
 }
 
 func (q *Queries) RetrieveChildComments(ctx context.Context, arg RetrieveChildCommentsParams) ([]RetrieveChildCommentsRow, error) {
-	rows, err := q.db.Query(ctx, retrieveChildComments, arg.Pageid, arg.Limit, arg.Offset)
+	rows, err := q.db.Query(ctx, retrieveChildComments,
+		arg.Pageid,
+		arg.Parentcommentid,
+		arg.Limit,
+		arg.Offset,
+	)
 	if err != nil {
 		return nil, err
 	}

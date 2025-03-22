@@ -52,4 +52,4 @@ SELECT
     Content
 FROM ChildComments, Users
 WHERE PageId = $1 AND ParentCommentId = $2 AND ChildComments.UserId = Users.UserId  
-LIMIT $2 OFFSET $3;
+LIMIT $3 OFFSET $4;

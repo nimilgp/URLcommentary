@@ -22,6 +22,6 @@ WHERE PageId = $1 AND UserId = $2 AND CommentId = $3;
 UPDATE LikesHistory
 SET LikeValue = $1
 WHERE 
-    PageId = $1 AND
-    UserId = $2 AND
-    CommentId = $3;
+    PageId = $2 AND
+    UserId = $3 AND
+    CommentId = $4;

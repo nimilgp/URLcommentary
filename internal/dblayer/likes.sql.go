@@ -109,18 +109,24 @@ const updateLikeHistory = `-- name: UpdateLikeHistory :exec
 UPDATE LikesHistory
 SET LikeValue = $1
 WHERE 
-    PageId = $1 AND
-    UserId = $2 AND
-    CommentId = $3
+    PageId = $2 AND
+    UserId = $3 AND
+    CommentId = $4
 `
 
 type UpdateLikeHistoryParams struct {
 	Likevalue int32
+	Pageid    int32
 	Userid    int32
 	Commentid int32
 }
 
 func (q *Queries) UpdateLikeHistory(ctx context.Context, arg UpdateLikeHistoryParams) error {
-	_, err := q.db.Exec(ctx, updateLikeHistory, arg.Likevalue, arg.Userid, arg.Commentid)
+	_, err := q.db.Exec(ctx, updateLikeHistory,
+		arg.Likevalue,
+		arg.Pageid,
+		arg.Userid,
+		arg.Commentid,
+	)
 	return err
 }
