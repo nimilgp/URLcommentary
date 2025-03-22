@@ -19,9 +19,13 @@ build:
 test:
 	@go test -v ./...
 
+.PHONY: copyenv
+copyenv: 
+	cp .env ./endpoints/.env
+
 ## run: run api server after building 
 .PHONY:	run
-run: build
+run: build copyenv
 	@./bin/srv
 
 .PHONY: dropdb
