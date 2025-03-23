@@ -1,0 +1,18 @@
+meta {
+  name: putSignIn
+  type: http
+  seq: 11
+}
+
+post {
+  url: http://{{base_url}}/api/v{{version}}/signin
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "emailid":"nimil3@nimilgp.com",
+    "passcode":"208265"
+  }
+}
