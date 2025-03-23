@@ -12,7 +12,7 @@ format:
 ## build: build the api server executable
 .PHONY:	build
 build:
-	@go build -o bin/srv cmd/main.go
+	@go build -o bin/srv ./cmd/
 
 ## test: run all test cases
 .PHONY:	test
