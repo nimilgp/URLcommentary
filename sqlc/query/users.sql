@@ -13,9 +13,19 @@ WHERE EmailId = $1;
 -- name: RetrieveUserDetails :one
 SELECT *
 FROM Users
-WHERE EmailId = $1;
+WHERE UserId = $1;
 
--- name: UpdateUserName :exec
+-- name: UpdateUserDetails :exec
 UPDATE Users
-SET UserName = $1
-WHERE UserId = $2;
+SET 
+    UserName = $1,
+    FullName = $2,
+    AboutMe = $3
+WHERE UserId = $4;
+
+-- name: DoesUserExist :one
+SELECT EXISTS (
+    SELECT UserId
+    FROM Users
+    WHERE EmailId = $1
+);

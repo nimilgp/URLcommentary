@@ -34,14 +34,29 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) error {
 	return err
 }
 
+const doesUserExist = `-- name: DoesUserExist :one
+SELECT EXISTS (
+    SELECT UserId
+    FROM Users
+    WHERE EmailId = $1
+)
+`
+
+func (q *Queries) DoesUserExist(ctx context.Context, emailid string) (bool, error) {
+	row := q.db.QueryRow(ctx, doesUserExist, emailid)
+	var exists bool
+	err := row.Scan(&exists)
+	return exists, err
+}
+
 const retrieveUserDetails = `-- name: RetrieveUserDetails :one
 SELECT userid, username, fullname, emailid, joineddate, aboutme, passwordhash
 FROM Users
-WHERE EmailId = $1
+WHERE UserId = $1
 `
 
-func (q *Queries) RetrieveUserDetails(ctx context.Context, emailid string) (User, error) {
-	row := q.db.QueryRow(ctx, retrieveUserDetails, emailid)
+func (q *Queries) RetrieveUserDetails(ctx context.Context, userid int32) (User, error) {
+	row := q.db.QueryRow(ctx, retrieveUserDetails, userid)
 	var i User
 	err := row.Scan(
 		&i.Userid,
@@ -68,18 +83,28 @@ func (q *Queries) RetrivePasswordHash(ctx context.Context, emailid string) (stri
 	return passwordhash, err
 }
 
-const updateUserName = `-- name: UpdateUserName :exec
+const updateUserDetails = `-- name: UpdateUserDetails :exec
 UPDATE Users
-SET UserName = $1
-WHERE UserId = $2
+SET 
+    UserName = $1,
+    FullName = $2,
+    AboutMe = $3
+WHERE UserId = $4
 `
 
-type UpdateUserNameParams struct {
+type UpdateUserDetailsParams struct {
 	Username string
+	Fullname string
+	Aboutme  string
 	Userid   int32
 }
 
-func (q *Queries) UpdateUserName(ctx context.Context, arg UpdateUserNameParams) error {
-	_, err := q.db.Exec(ctx, updateUserName, arg.Username, arg.Userid)
+func (q *Queries) UpdateUserDetails(ctx context.Context, arg UpdateUserDetailsParams) error {
+	_, err := q.db.Exec(ctx, updateUserDetails,
+		arg.Username,
+		arg.Fullname,
+		arg.Aboutme,
+		arg.Userid,
+	)
 	return err
 }
