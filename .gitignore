@@ -2,3 +2,4 @@ bin/
 tmp/
 build-errors.log
 README.html
+.env
