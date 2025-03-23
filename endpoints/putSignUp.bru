@@ -1,0 +1,19 @@
+meta {
+  name: putSignUp
+  type: http
+  seq: 10
+}
+
+post {
+  url: http://{{base_url}}/api/v{{version}}/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username":"nimilimin",
+    "fullname":"nimil george pradeep",
+    "emailid":"nimil2@nimilgp.com"
+  }
+}
