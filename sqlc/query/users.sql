@@ -11,7 +11,7 @@ FROM Users
 WHERE EmailId = $1;
 
 -- name: RetrieveUserDetails :one
-SELECT *
+SELECT UserName, FullName, JoinedDate, AboutMe
 FROM Users
 WHERE UserId = $1;
 
