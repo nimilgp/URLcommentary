@@ -1,0 +1,20 @@
+meta {
+  name: putUserDetails
+  type: http
+  seq: 12
+}
+
+put {
+  url: http://{{base_url}}/api/v{{version}}/user/details
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "Userid": 3,
+    "Username": "user9000",
+    "Fullname": "David Lee edited twice",
+    "Aboutme": "Loves exploring new technologies and manga."
+  }
+}
