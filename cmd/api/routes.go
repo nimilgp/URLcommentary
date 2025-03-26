@@ -24,5 +24,6 @@ func (s *APIServer) routes() http.Handler {
 	subR.HandleFunc("POST /signup", s.postSignUp)
 	subR.HandleFunc("POST /signin", s.postSignIn)
 	subR.HandleFunc("GET /user/details/{userid}", s.getUserDetails)
+	subR.HandleFunc("PUT /user/details", s.putUserDetails)
 	return s.logAccess(s.addVersionPrefix(subR))
 }
