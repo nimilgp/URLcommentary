@@ -23,5 +23,6 @@ func (s *APIServer) routes() http.Handler {
 	subR.HandleFunc("GET /like/{pageid}/{userid}", s.getLikeHistory)
 	subR.HandleFunc("POST /signup", s.postSignUp)
 	subR.HandleFunc("POST /signin", s.postSignIn)
+	subR.HandleFunc("GET /user/details/{userid}", s.getUserDetails)
 	return s.logAccess(s.addVersionPrefix(subR))
 }
