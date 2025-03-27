@@ -50,7 +50,7 @@ func (s *APIServer) postSignUp(w http.ResponseWriter, r *http.Request) {
 			AccountName: input.Emailid,
 			Period:      35,
 			Digits:      otp.DigitsSix,
-			Algorithm:   otp.AlgorithmSHA256,
+			Algorithm:   otp.AlgorithmSHA1,
 		})
 		arg := dblayer.CreateUserParams{
 			Username:     input.Username,
