@@ -43,12 +43,12 @@ Once the extension is loaded,  users can then post and view comments, which will
     ```bash
     cd URLcommentary/
     ```
-3. **Compile the source**
+3. **List out Make Commands**
 
    ```bash
-    go build -o srv ./cmd/api/ 
+   make help
    ```
 4. **Run server**
    ```bash
-   ./srv
+   make run
    ```
