@@ -6,6 +6,7 @@ URLcommentary is a tool designed to enable users to comment on any website, even
 - **Bring transparency to comments and reviews**
 - **Richer community interactions**
 
+<!--
 ## Installation
 
 1. **Clone the Repository**
@@ -29,6 +30,11 @@ URLcommentary is a tool designed to enable users to comment on any website, even
 ## Usage
 
 Once the extension is loaded,  users can then post and view comments, which will be displayed in the new comment section injected into the webpage.
+-->
+## Database setup
+1. **Install PostgreSQL**
+2. **Create a user(postgres) and database(urlc)**
+3. **Add database connection string in the config file .env for dsn value**
 
 ## Running API server
 
